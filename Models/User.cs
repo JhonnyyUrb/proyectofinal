@@ -1,0 +1,22 @@
+namespace ProyectoClaseQ2.Models;
+
+public class User
+{
+    // representar un user en el sistema
+    //nesta clase es lo que vamos a guadar en firestore y leer
+    
+    
+        public string Id { get; set; }
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Direccion { get; set; }
+        
+        public string Role { get; set; } // Admin, mediador o ciudadano
+        public bool IsActive { get; set; }
+     
+    // la contraseña  siempre ira hasheada, nunca en texto plano
+    public string PasswordHash { get; set; } = string.Empty;
+     
+     // para saber cuando se cre el registro
+     public DateTime Created { get; set; } = DateTime.UtcNow; 
+}
