@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8qFoYBmtFZ4=",
+  "dgSpecHash": "zXMa/QAWOJA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\50489\\Documents\\jetbrains\\proyectofinalQ2\\proyectofinalQ2\\proyectofinalQ2.csproj",
+  "projectFilePath": "C:\\Users\\50489\\RiderProjects\\proyectofinal\\proyectofinalQ2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\50489\\.nuget\\packages\\google.api.commonprotos\\2.17.0\\google.api.commonprotos.2.17.0.nupkg.sha512",
     "C:\\Users\\50489\\.nuget\\packages\\google.api.gax\\4.13.1\\google.api.gax.4.13.1.nupkg.sha512",
