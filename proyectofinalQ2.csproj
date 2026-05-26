@@ -14,7 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Config\" />
       <Folder Include="Controllers\" />
     </ItemGroup>
 

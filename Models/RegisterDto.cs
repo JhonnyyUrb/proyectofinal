@@ -1,4 +1,4 @@
-namespace ProyectoClaseQ2.DTOs;
+namespace proyectofinalQ2.DTOs;
 
 public class RegisterDto
 {
