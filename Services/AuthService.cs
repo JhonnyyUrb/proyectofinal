@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
 using Google.Cloud.Firestore;
-using ProyectoClaseQ2.DTOs;
-using ProyectoClaseQ2.Models;
+using proyectofinalQ2.DTOs;
+using proyectofinalQ2.Models;
 
-namespace ProyectoClaseQ2.Services;
+namespace proyectofinalQ2.Services;
 
 public class AuthService
 {

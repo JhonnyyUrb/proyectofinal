@@ -1,6 +1,6 @@
 using Google.Cloud.Firestore;
 
-namespace ProyectoClaseQ2.Services;
+namespace proyectofinalQ2.Services;
 
 
 
