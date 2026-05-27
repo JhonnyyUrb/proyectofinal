@@ -2,6 +2,7 @@
 using ProyectoClaseQ2.DTOs;
 using ProyectoClaseQ2.Services; //importar el namespace de la interfaz
 
+
 namespace ProyectoClaseQ2.Controllers
 {
     [ApiController]
