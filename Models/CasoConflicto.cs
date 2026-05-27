@@ -1,4 +1,4 @@
-namespace ProyectoClaseQ2.Models;
+namespace proyectofinalQ2.Models;
 
 public class CasoConflicto
 {
