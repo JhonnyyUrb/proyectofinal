@@ -1,3 +1,5 @@
+using System;
+
 namespace proyectofinalQ2.Models;
 
 public class User
@@ -9,14 +11,16 @@ public class User
         public string Id { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
-        public string Direccion { get; set; }
+        public string Address { get; set; }
         
         public string Role { get; set; } // Admin, mediador o ciudadano
-        public bool IsActive { get; set; }
+        public string? ZoneId { get; set; }
+        // para saber cuando se cre el registro
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsActive { get; set; } = true;
      
     // la contraseña  siempre ira hasheada, nunca en texto plano
     public string PasswordHash { get; set; } = string.Empty;
      
-     // para saber cuando se cre el registro
-     public DateTime Created { get; set; } = DateTime.UtcNow; 
+    
 }
