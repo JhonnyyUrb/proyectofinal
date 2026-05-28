@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProyectoClaseQ2.DTOs;
-using ProyectoClaseQ2.Services;
+using proyectofinalQ2.DTOs;
+using proyectofinalQ2.Services;
 
-namespace ProyectoClaseQ2.Controllers;
+namespace proyectofinalQ2.Controllers;
 
     // ApiController activa validaciones de forma automatica y ayuda al manejo de errores
     [ApiController]

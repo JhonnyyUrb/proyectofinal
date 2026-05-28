@@ -4,7 +4,7 @@ namespace proyectofinalQ2.Services;
 
 
 
-public class firebaseService
+public class FirebaseService
 {
     
     
@@ -14,7 +14,7 @@ public class firebaseService
     private readonly FirestoreDb _firestoreDb;
 
 
-    public firebaseService()
+    public FirebaseService()
     {
         // decirle a fb donde esta en archivo con las credenciales
         // usar l ruta relativa
