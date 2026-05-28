@@ -1,3 +1,5 @@
+using System;
+
 namespace proyectofinalQ2.Models;
 
 public class User

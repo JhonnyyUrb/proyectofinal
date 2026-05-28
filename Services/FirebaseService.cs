@@ -19,7 +19,7 @@ public class FirebaseService
         // decirle a fb donde esta en archivo con las credenciales
         // usar l ruta relativa
         
-        var credentialPath = Path.Combine(AppContext.BaseDirectory, "Config", "firebase-credentialss.json");
+        var credentialPath = Path.Combine(AppContext.BaseDirectory, "Config", "proyectofinal-firebase-credentials.json");
         
         // esta es una variable de entorno que usa el sdk de GOOGLE, para autenticarse
         
