@@ -1,17 +1,16 @@
-# Carpetas de Compilación
-bin/
-obj/
-
-# Configuraciones de Rider e IDEs
-.idea/
-*.user
-*.suo
-
-# Ignorar el archivo de credenciales real en cualquier subcarpeta
-# Archivos de configuración locales con credenciales secretas
-**/Config/*.json
+Config/*
+appsettings.json
 appsettings.Development.json
 
-
-# PERO permitir explícitamente que se suba el archivo de plantilla .example
-!**/Config/*.json.example
+bin/
+obj/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+/obj/
