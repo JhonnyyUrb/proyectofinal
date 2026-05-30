@@ -29,7 +29,7 @@ public class LabController: ControllerBase
         {
             var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(currentUserId))
             {
                 return Unauthorized(new { message = "Token Invalido" });
             }
@@ -52,11 +52,11 @@ public class LabController: ControllerBase
             return StatusCode(500, new { message = "Error del servidor" });
         }
     }
-    [HttpPost("register")]
+    [HttpPost("Register")]
     [AllowAnonymous] 
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        var _firebaseApiKey = "TU_API_KEY_AQUI"; 
+        var _firebaseApiKey = "AIzaSyC9QtAADlI2CSo3N3wIT1a2kyRhsiuNSDE"; 
         var client = new HttpClient(); 
         
         var url = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={_firebaseApiKey}";
@@ -71,7 +71,9 @@ public class LabController: ControllerBase
 
         if (!response.IsSuccessStatusCode)
         {
-            return BadRequest(new { message = "Error al crear el usuario" });
+         //   return BadRequest(new { message = "Error al crear el usuario" });
+         var errorContent = await response.Content.ReadAsStringAsync();
+         return BadRequest(new { message = "Error al crear el usuario", detalle = errorContent });
         }
 
         var content = await response.Content.ReadFromJsonAsync<System.Text.Json.JsonElement>();
@@ -84,6 +86,55 @@ public class LabController: ControllerBase
         });
     }
 
+    [HttpPost("Notes")]
+    public async Task<IActionResult> CreateNote([FromBody] proyectofinalQ2.DTOs.CreateLabNoteDto dto)
+    {
+        try
+        {
+        var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(currentUserId))
+        {
+            return Unauthorized(new { message = "Token invalido" });
+        }
+        
+        var newNote=await _labNoteService.CreateNoteAsync(dto, currentUserId);
+        
+        return CreatedAtAction(nameof(GetMyNotes),new { id = newNote.Id},newNote);
+        
+        }
+        catch (ArgumentException e)
+        {
+return BadRequest(new { message = e.Message });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { message = "Error del servidor al crear la nota" });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetMyNotes()
+    {
+        try
+        {
+            var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(currentUserId))
+            {
+                return Unauthorized(new { message = "Token Inválido o ausente" });
+            }
+            
+            var notes = await _labNoteService.GetNotesByUserIdAsync(currentUserId);
+        
+            return Ok(notes);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { message = "Error del servidor al obtener notas" });
+        }
+    }
+    
 
     public class RegisterRequest
     {

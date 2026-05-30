@@ -53,6 +53,7 @@ public class AuthService
               {"Role", user.Role},
               {"CreatedAt",Timestamp.FromDateTime(user.CreatedAt)},
               {"PasswordHash", user.PasswordHash},
+              {"IsActive",user.IsActive}
           });
           return user;
 
@@ -60,7 +61,7 @@ public class AuthService
       
       public async Task<string> Login(LoginDto dto)
       {
-        var collectionn=_firebaseService.GetCollection("users");
+        var collectionn=_firebaseService.GetCollection("Users");
         var snapshot = await collectionn
             .WhereEqualTo("Email", dto.Email)
             .GetSnapshotAsync();
@@ -88,7 +89,8 @@ public class AuthService
             
             PasswordHash = data.ContainsKey("PasswordHash")?data["PasswordHash"].ToString()!:"",
             
-            IsActive =data.ContainsKey("IsActive") || Convert.ToBoolean(data["IsActive"])
+            //IsActive = data.TryGetValue("IsActive", out var isActiveVal) && Convert.ToBoolean(isActiveVal)
+            IsActive = data.ContainsKey("IsActive") ? Convert.ToBoolean(data["IsActive"]) : true
         };
 
         if (!VerifyPassword(dto.Password, user.PasswordHash)) throw new Exception("El correo o contraseña es Incorrecta");
@@ -122,7 +124,7 @@ public class AuthService
           var token = new JwtSecurityToken(
                         
               issuer: _configuration["Jwt:Issuer"], //Quien lo genera, nuestro token lo genera la app
-              audience: _configuration["Jwt:Issuer"], // Para quien lo genera, clientes / front-end
+              audience: _configuration["Jwt:Audience"], // Para quien lo genera, clientes / front-end
               claims: claims, // Estos son los datos del usuario
               expires: DateTime.UtcNow.AddHours(8), //Tiempo de vida del token
               signingCredentials: creds // Firma de seguridad

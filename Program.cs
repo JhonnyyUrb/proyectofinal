@@ -16,6 +16,8 @@ builder.Services.AddSingleton<FirebaseService>();
 builder.Services.AddScoped<AuthService>();
 //builder.Services.AddScoped<ExperimentService>();
 
+builder.Services.AddScoped<LabNoteService>();
+
 builder.Services.AddControllers();
 
 // AddOpenApi registrar el generador de documentacion que Scalar va a leer
@@ -46,6 +48,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(
             Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+    };
+    
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine("¡FALLÓ EL JWT!: " + context.Exception.Message);
+            return Task.CompletedTask;
+        }
     };
 });
 
