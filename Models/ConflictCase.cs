@@ -1,6 +1,6 @@
 namespace proyectofinalQ2.Models;
 
-public class CasoConflicto
+public class ConflictCase
 {
    
         public string Id { get; set; }
