@@ -13,6 +13,12 @@ public class LabNoteService
     
     private readonly FirebaseService _firebaseService;
     private readonly IConfiguration _configuration;
+
+    public LabNoteService(FirebaseService firebaseService, IConfiguration configuration)
+    {
+        _firebaseService = firebaseService;
+        _configuration = configuration;
+    }
     
     public async Task<LabNote> CreateNoteAsync(CreateLabNoteDto dto, string userId)
     {
