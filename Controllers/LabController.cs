@@ -16,8 +16,9 @@ namespace proyectofinalQ2.Controllers;
 public class LabController: ControllerBase
 {
     private readonly LabNoteService _labNoteService;
+    private readonly IConfiguration _configuration;
 
-    public LabController(LabNoteService labNoteService)
+    public LabController(LabNoteService labNoteService,IConfiguration configuration)
     {
         _labNoteService = labNoteService;
     }
@@ -56,7 +57,7 @@ public class LabController: ControllerBase
     [AllowAnonymous] 
     public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
-        var _firebaseApiKey = "AIzaSyC9QtAADlI2CSo3N3wIT1a2kyRhsiuNSDE"; 
+        var _firebaseApiKey = _configuration["Firebase:ApiKey"];
         var client = new HttpClient(); 
         
         var url = $"https://identitytoolkit.googleapis.com/v1/accounts:signUp?key={_firebaseApiKey}";
