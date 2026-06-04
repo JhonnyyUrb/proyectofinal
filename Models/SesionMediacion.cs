@@ -15,4 +15,8 @@ public class SesionMediacion
 
     public string Estado { get; set; }
     
+    public string AcuerdoFinal { get; set; }
+    
+    public DateTime FechaSesion { get; set; }
+    
 }
