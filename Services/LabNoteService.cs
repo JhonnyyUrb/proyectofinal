@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Cloud.Firestore;
@@ -30,7 +30,7 @@ public class LabNoteService
         
         var note = new LabNote
         {
-            Id = Guid.NewGuid().ToString(),
+           Id = Guid.NewGuid().ToString(),
             Title = dto.Title,
             Observation = dto.Observation,
             Category = dto.Category,

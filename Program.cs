@@ -17,7 +17,7 @@ builder.Services.AddScoped<AuthService>();
 //builder.Services.AddScoped<ExperimentService>();
 
 builder.Services.AddScoped<LabNoteService>();
-
+builder.Services.AddScoped<AdminService>();
 builder.Services.AddControllers();
 
 // AddOpenApi registrar el generador de documentacion que Scalar va a leer
