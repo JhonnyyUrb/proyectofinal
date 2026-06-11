@@ -11,7 +11,7 @@ public class FirebaseService
     // este servicio es el puente entre nuestra app y firebase
     // tod0 lo que vamos a hablar con firestore pasa por aqui
     
-    private readonly FirestoreDb _firestoreDb;
+     public FirestoreDb _firestoreDb;
 
 
     public FirebaseService()
@@ -19,7 +19,7 @@ public class FirebaseService
         // decirle a fb donde esta en archivo con las credenciales
         // usar l ruta relativa
         
-        var credentialPath = Path.Combine(AppContext.BaseDirectory, "Config", "proyectofinal-firebase-credentials.json");
+        var credentialPath = Path.Combine(AppContext.BaseDirectory, "Config", "firebase-credentials.json");
         
         // esta es una variable de entorno que usa el sdk de GOOGLE, para autenticarse
         
