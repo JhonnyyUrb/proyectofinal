@@ -112,7 +112,7 @@ public class AuthService
               new Claim(ClaimTypes.Role, user.Role)
           };
 
-          if (!string.IsNullOrEmpty(user.Role))
+          if (!string.IsNullOrEmpty(user.ZoneId))
           {
               claims.Add(new Claim("ZoneId", user.ZoneId));
           }
