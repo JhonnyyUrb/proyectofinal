@@ -1,6 +1,6 @@
 namespace proyectofinalQ2.DTOs;
 
-public class CrearAcuerdo
+public class CrearAcuerdoDto
 {
     
     public string IdCaso { get; set; }

@@ -1,6 +1,6 @@
 namespace proyectofinalQ2.DTOs;
 
-public class CrearSesion
+public class CrearSesionDto
 {
     
     public string IdCaso { get; set; }

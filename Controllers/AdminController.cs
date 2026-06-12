@@ -1,13 +1,14 @@
+using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using proyectofinalQ2.DTOs;
 using proyectofinalQ2.Services;
 
 namespace proyectofinalQ2.Controllers;
 
+[Authorize(Roles = "admin,Admin")]
 [ApiController]
-[Route("api/[controller]")]
-[Authorize(Roles = "admin")]
+[Route("api/admin")]
 public class AdminController : ControllerBase
 {
     private readonly AdminService _adminService;
@@ -17,31 +18,47 @@ public class AdminController : ControllerBase
         _adminService = adminService;
     }
 
-    [HttpPut("asignar-zona")]
-    public async Task<IActionResult> AsignarZona([FromBody] AsignarZona dto)
+    [HttpPost("asignar-zona")]
+    public async Task<IActionResult> AsignarZona([FromBody] AsignarZonaRequest request)
     {
         try
         {
-            await _adminService.AsignarZonaMediador(dto);
-            return Ok("Zona asignada correctamente");
+            if (string.IsNullOrEmpty(request.UserId) || string.IsNullOrEmpty(request.ZoneId))
+            {
+                return BadRequest(new { message = "UserId y ZoneId son obligatorios." });
+            }
+
+            var resultado = await _adminService.AsignarZonaMediador(request.UserId, request.ZoneId);
+            return Ok(new { message = "Zona asignada correctamente al mediador." });
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = e.Message });
         }
     }
 
-    [HttpPut("usuarios/{userId}/alternar-estado")]
-    public async Task<IActionResult> AlternarEstadoUsuario(string userId)
+    [HttpPost("alternar-estado/{userId}")]
+    public async Task<IActionResult> AlternarEstado(string userId)
     {
         try
         {
-            await _adminService.AlternarEstadoUsuario(userId);
-            return Ok("Estado del usuario actualizado correctamente");
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest(new { message = "El ID de usuario es requerido." });
+            }
+
+            var nuevoEstado = await _adminService.AlternarEstadoUsuario(userId);
+            return Ok(new { message = $"El estado del usuario se actualizó a: {(nuevoEstado ? "Activo" : "Inactivo")}", isActive = nuevoEstado });
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(new { message = e.Message });
         }
     }
+}
+
+public class AsignarZonaRequest
+{
+    public string UserId { get; set; } = string.Empty;
+    public string ZoneId { get; set; } = string.Empty;
 }
