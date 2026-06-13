@@ -1,4 +1,4 @@
-﻿using System.Security.Claims;
+﻿/*using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using proyectofinalQ2.DTOs;
@@ -74,4 +74,4 @@ public class LabNoteController : ControllerBase
             return Forbid();
         }
     }
-}
+}*/

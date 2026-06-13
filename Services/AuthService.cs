@@ -37,7 +37,7 @@ public class AuthService
               Email = dto.Email,
               Address = dto.Address,
               PasswordHash = HashPassword(dto.Password),
-              Role = "ciudadano",
+              Role = dto.Role,
               ZoneId = null,
               IsActive = true,
               CreatedAt = DateTime.UtcNow

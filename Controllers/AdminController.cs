@@ -55,6 +55,68 @@ public class AdminController : ControllerBase
             return BadRequest(new { message = e.Message });
         }
     }
+    
+    [HttpGet("usuarios")]
+    public async Task<IActionResult> ListarUsuarios()
+    {
+        try
+        {
+            var usuarios = await _adminService.ListarUsuarios();
+            return Ok(usuarios);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
+
+    [HttpGet("mediadores")]
+    public async Task<IActionResult> ListarMediadores()
+    {
+        try
+        {
+            var mediadores = await _adminService.ListarMediadores();
+            return Ok(mediadores);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
+
+    [HttpPost("desactivar-mediador/{userId}")]
+    public async Task<IActionResult> DesactivarMediador(string userId)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest(new { message = "El ID del mediador es requerido." });
+            }
+
+            await _adminService.DesactivarMediador(userId);
+            return Ok(new { message = "Mediador desactivado correctamente." });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
+
+    [HttpGet("dashboard")]
+    public async Task<IActionResult> ObtenerDashboard()
+    {
+        try
+        {
+            var dashboard = await _adminService.ObtenerDashboard();
+            return Ok(dashboard);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
+    
 }
 
 public class AsignarZonaRequest

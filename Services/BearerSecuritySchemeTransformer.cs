@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 
-namespace ProyectoClaseQ2.Services
+namespace proyectofinalQ2.Services
 {
     // Esta clase le dice a Scalar que nuestra API usa Bearer tokens
     // Es necesaria porque en .NET 10 Scalar no lo detecta automáticamente
