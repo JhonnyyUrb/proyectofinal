@@ -18,5 +18,7 @@ public class RegisterDto
     
     [Required(ErrorMessage = "La direccion es obligatorio")]
     public string Address { get; set; } = string.Empty;
+    
+    public string Role { get; set; } = "ciudadano";
 }
 

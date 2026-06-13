@@ -51,16 +51,110 @@ public class AdminService
         }
 
         var data = snapshot.ToDictionary();
+
         bool isActive = true;
 
-        if (data.ContainsKey("IsActive"))
+        if (data.ContainsKey("isActive"))
         {
-            isActive = Convert.ToBoolean(data["IsActive"]);
+            isActive = Convert.ToBoolean(data["isActive"]);
         }
 
         bool nuevoEstado = !isActive;
-        await docRef.UpdateAsync("IsActive", nuevoEstado);
+
+        await docRef.UpdateAsync("isActive", nuevoEstado);
 
         return nuevoEstado;
     }
+    
+    
+    public async Task<List<Dictionary<string, object>>> ListarUsuarios()
+    {
+        var collection = _firebaseService.GetCollection("Users");
+        var snapshot = await collection.GetSnapshotAsync();
+
+        var usuarios = new List<Dictionary<string, object>>();
+
+        foreach (var doc in snapshot.Documents)
+        {
+            if (!doc.Exists) continue;
+
+            var data = doc.ToDictionary();
+            data["Id"] = doc.Id;
+
+            usuarios.Add(data);
+        }
+
+        return usuarios;
+    }
+    
+    public async Task<List<Dictionary<string, object>>> ListarMediadores()
+    {
+        var collection = _firebaseService.GetCollection("Users");
+
+        var snapshot = await collection
+            .WhereEqualTo("Role", "Mediador")
+            .GetSnapshotAsync();
+
+        var mediadores = new List<Dictionary<string, object>>();
+
+        foreach (var doc in snapshot.Documents)
+        {
+            if (!doc.Exists) continue;
+
+            var data = doc.ToDictionary();
+            data["Id"] = doc.Id;
+
+            mediadores.Add(data);
+        }
+
+        return mediadores;
+    }
+    
+    public async Task DesactivarMediador(string userId)
+    {
+        var collection = _firebaseService.GetCollection("Users");
+
+        await collection.Document(userId)
+            .UpdateAsync("IsActive", false);
+    }
+    
+    public async Task<Dictionary<string, int>> ObtenerDashboard()
+    {
+        var usersCollection = _firebaseService.GetCollection("Users");
+        var casesCollection = _firebaseService.GetCollection("Cases");
+
+        var usersSnapshot = await usersCollection.GetSnapshotAsync();
+        var casesSnapshot = await casesCollection.GetSnapshotAsync();
+
+        int totalUsuarios = usersSnapshot.Count;
+        int totalCasos = casesSnapshot.Count;
+
+        return new Dictionary<string, int>
+        {
+            { "TotalUsuarios", totalUsuarios },
+            { "TotalCasos", totalCasos }
+        };
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
