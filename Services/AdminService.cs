@@ -54,14 +54,14 @@ public class AdminService
 
         bool isActive = true;
 
-        if (data.ContainsKey("isActive"))
+        if (data.ContainsKey("IsActive"))
         {
-            isActive = Convert.ToBoolean(data["isActive"]);
+            isActive = Convert.ToBoolean(data["sActive"]);
         }
 
         bool nuevoEstado = !isActive;
 
-        await docRef.UpdateAsync("isActive", nuevoEstado);
+        await docRef.UpdateAsync("IsActive", nuevoEstado);
 
         return nuevoEstado;
     }
@@ -121,7 +121,7 @@ public class AdminService
     public async Task<Dictionary<string, int>> ObtenerDashboard()
     {
         var usersCollection = _firebaseService.GetCollection("Users");
-        var casesCollection = _firebaseService.GetCollection("Cases");
+        var casesCollection = _firebaseService.GetCollection("CasosConflicto");
 
         var usersSnapshot = await usersCollection.GetSnapshotAsync();
         var casesSnapshot = await casesCollection.GetSnapshotAsync();
