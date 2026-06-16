@@ -56,7 +56,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         OnAuthenticationFailed = context =>
         {
-            Console.WriteLine("¡FALLÓ EL JWT!: " + context.Exception.Message);
+            Console.WriteLine("FALLÓ EL JWT: " + context.Exception.Message);
             return Task.CompletedTask;
         }
     };
