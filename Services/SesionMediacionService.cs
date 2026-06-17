@@ -94,4 +94,87 @@ public class SesionMediacionService
 
         return acuerdo;
     }
+public async Task<bool> ConfirmarAcuerdoPorReportante(string acuerdoId)
+    {
+        var acuerdosCollection = _firebaseService.GetCollection("Acuerdos");
+        var casosCollection = _firebaseService.GetCollection("CasosConflicto");
+        var acuerdoDoc = await acuerdosCollection.Document(acuerdoId).GetSnapshotAsync();
+
+        if (!acuerdoDoc.Exists)
+        {
+            throw new Exception("El acuerdo especificado no existe.");
+        }
+
+        // Evitar modificar acuerdo ya formalizado
+        bool formalizado = acuerdoDoc.ContainsField("Formalizado") && acuerdoDoc.GetValue<bool>("Formalizado");
+        if (formalizado)
+        {
+            throw new Exception("No se puede modificar un acuerdo que ya ha sido formalizado.");
+        }
+
+        // Cuando ambos confirmen, formalizar acuerdo
+        bool confirmadoPorDenunciado = acuerdoDoc.ContainsField("ConfirmadoPorDenunciado") && acuerdoDoc.GetValue<bool>("ConfirmadoPorDenunciado");
+        bool nuevoFormalizado = confirmadoPorDenunciado; 
+
+        var actualizaciones = new Dictionary<string, object>
+        {
+            { "ConfirmadoPorReportante", true },
+            { "Formalizado", nuevoFormalizado }
+        };
+
+        await acuerdosCollection.Document(acuerdoId).UpdateAsync(actualizaciones);
+
+        // Si se formaliza porque ambos confirmaron, el caso pasa a Resuelto
+        if (nuevoFormalizado)
+        {
+            string idCaso = acuerdoDoc.GetValue<string>("IdCaso");
+            await casosCollection.Document(idCaso).UpdateAsync("Estado", "Resuelto");
+        }
+
+        return nuevoFormalizado;
+    }
+
+    public async Task<bool> ConfirmarAcuerdoPorDenunciado(string acuerdoId)
+    {
+        var acuerdosCollection = _firebaseService.GetCollection("Acuerdos");
+        var casosCollection = _firebaseService.GetCollection("CasosConflicto");
+        var acuerdoDoc = await acuerdosCollection.Document(acuerdoId).GetSnapshotAsync();
+
+        if (!acuerdoDoc.Exists)
+        {
+            throw new Exception("El acuerdo especificado no existe.");
+        }
+
+        // Evitar modificar acuerdo ya formalizado
+        bool formalizado = acuerdoDoc.ContainsField("Formalizado") && acuerdoDoc.GetValue<bool>("Formalizado");
+        if (formalizado)
+        {
+            throw new Exception("No se puede modificar un acuerdo que ya ha sido formalizado.");
+        }
+
+        // Cuando ambos confirmen, formalizar acuerdo
+        bool confirmadoPorReportante = acuerdoDoc.ContainsField("ConfirmadoPorReportante") && acuerdoDoc.GetValue<bool>("ConfirmadoPorReportante");
+        bool nuevoFormalizado = confirmadoPorReportante; 
+
+        var actualizaciones = new Dictionary<string, object>
+        {
+            { "ConfirmadoPorDenunciado", true },
+            { "Formalizado", nuevoFormalizado }
+        };
+
+        await acuerdosCollection.Document(acuerdoId).UpdateAsync(actualizaciones);
+
+        // Si se formaliza porque ambos confirmaron, el caso pasa a Resuelto
+        if (nuevoFormalizado)
+        {
+            string idCaso = acuerdoDoc.GetValue<string>("IdCaso");
+            await casosCollection.Document(idCaso).UpdateAsync("Estado", "Resuelto");
+        }
+
+        return nuevoFormalizado;
+    }
+
+
 }
+
+

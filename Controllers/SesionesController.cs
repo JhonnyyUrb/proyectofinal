@@ -1,4 +1,3 @@
-
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ namespace proyectofinalQ2.Controllers;
 
 [Authorize]
 [ApiController]
-[Route("api/sesiones")]
+[Route("api/Sesiones")] 
 public class SesionesController : ControllerBase
 {
     private readonly SesionMediacionService _sesionService;
@@ -21,7 +20,7 @@ public class SesionesController : ControllerBase
         _sesionService = sesionService;
     }
 
-    [HttpPost]
+    [HttpPost("agendar")] 
     public async Task<IActionResult> Agendar([FromBody] CrearSesionDto dto)
     {
         try
@@ -52,6 +51,34 @@ public class SesionesController : ControllerBase
             return BadRequest(new { message = e.Message });
         }
     }
+
+   
+
+    [HttpPut("acuerdo/{acuerdoId}/confirmar-reportante")]
+    public async Task<IActionResult> ConfirmarReportante(string acuerdoId)
+    {
+        try
+        {
+            var esFormalizado = await _sesionService.ConfirmarAcuerdoPorReportante(acuerdoId);
+            return Ok(new { message = "Acuerdo confirmado por el reportante.", formalizado = esFormalizado });
+        }
+        catch (Exception e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
+
+    [HttpPut("acuerdo/{acuerdoId}/confirmar-denunciado")]
+    public async Task<IActionResult> ConfirmarDenunciado(string acuerdoId)
+    {
+        try
+        {
+            var esFormalizado = await _sesionService.ConfirmarAcuerdoPorDenunciado(acuerdoId);
+            return Ok(new { message = "Acuerdo confirmado por el denunciado.", formalizado = esFormalizado });
+        }
+        catch (Exception e) // 3. Corregido el ';' que rompía la compilación aquí
+        {
+            return BadRequest(new { message = e.Message });
+        }
+    }
 }
-
-
