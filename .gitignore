@@ -2,10 +2,7 @@ Config/*
 appsettings.json
 appsettings.Development.json
 
-# Ignorar configuraciones locales con llaves privadas
-appsettings.json
-appsettings.Development.json
-antigravity-context.md
+markdown.md
 
 bin/
 obj/
