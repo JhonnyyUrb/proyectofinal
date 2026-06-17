@@ -61,4 +61,43 @@ public class CasosController : ControllerBase
             return BadRequest(new { message = e.Message });
         }
     }
+
+    [HttpGet("mis-casos")]
+    [Authorize]
+    public async Task<IActionResult> GetMisCasos()
+    {
+        var userid=User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userid))
+        {
+            return Unauthorized("No se pudo identificar el usario desde el token");
+        }
+        var casos=await _casoService.ObtenerMisCasos(userid);
+        return Ok(casos);
+    }
+
+    [HttpPut("{casosId}/asignar-mediador")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> AsignarMediador(string casoId, [FromBody] string mediadorId)
+    {
+        if (string.IsNullOrEmpty(mediadorId))
+        {
+            return BadRequest("El id de mediador es requerido");
+        }
+        await _casoService.AsignarMediador(casoId, mediadorId);
+        return Ok((new {mensaje="Mediador asignado exitosamente y Estado cambiado a Asignado"}));
+    }
+
+    [HttpPut("{casoId}/estado")]
+    [Authorize(Roles = "Admin,Mediador")]
+    public async Task<IActionResult> ActualizarEstado(string casoId, [FromBody] string nuevoEstado)
+    {
+        if (string.IsNullOrEmpty(nuevoEstado))
+        {
+            return BadRequest("El nuevo estado es requerido");
+        }
+        await _casoService.ActualizarEstadoCaso(casoId, nuevoEstado);
+        return Ok((new{mensaje=$"El estado del caso fue actualizado a '{nuevoEstado}' con exito"}));
+    }
+    
 }

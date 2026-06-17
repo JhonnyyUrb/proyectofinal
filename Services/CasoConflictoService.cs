@@ -118,4 +118,84 @@ public class CasoConflictoService
 
         return lista;
     }
+
+    public async Task<List<CasoConflicto>> ObtenerMisCasos(string userId)
+    {
+        List<CasoConflicto> misCasos = new List<CasoConflicto>();
+
+        CollectionReference casosRef = _firebaseService.GetCollection("CasosConflicto");
+        
+        Query queryCiudadano = casosRef.WhereEqualTo("CiudadanoId", userId);
+        QuerySnapshot snapshotCiudadano = await queryCiudadano.GetSnapshotAsync();
+
+        foreach (DocumentSnapshot doc in snapshotCiudadano.Documents)
+        {
+            if (doc.Exists)
+            {
+                var data=doc.ToDictionary();
+                misCasos.Add(MapearDocumentoACaso(doc.Id,data));
+            }
+        }
+        
+        Query queryContraparte=casosRef.WhereEqualTo("ContraparteId", userId);
+        QuerySnapshot snapshotContraparte = await queryContraparte.GetSnapshotAsync();
+
+        foreach (DocumentSnapshot doc in snapshotContraparte.Documents )
+        {
+            if (doc.Exists)
+            {
+                var data = doc.ToDictionary();
+                var caso=MapearDocumentoACaso(doc.Id,data);
+                if (!misCasos.Any(c=> c.Id== caso.Id))
+                {
+                    misCasos.Add(caso);
+                }
+            }
+        }
+return  misCasos;
+    }
+
+    public async Task AsignarMediador(string casoId, string mediadorId)
+    {
+        DocumentReference casoRef = _firebaseService.GetCollection("CasosConflicto").Document(casoId);
+
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            { "MediadorId", mediadorId },
+            { "Estado", "Asignado" }
+        };
+        await casoRef.UpdateAsync(updates);
+    }
+
+    public async Task ActualizarEstadoCaso(string casoId, string nuevoEstado)
+    {
+        DocumentReference casoRef = _firebaseService.GetCollection("CasosConflicto").Document(casoId);
+
+        Dictionary<string, object> updates = new Dictionary<string, object>
+        {
+            { "Estado", nuevoEstado }
+        };
+        await casoRef.UpdateAsync(updates);
+    }
+
+    private CasoConflicto MapearDocumentoACaso(string id, Dictionary<string, object> data)
+    {
+        return new CasoConflicto
+        {
+            Id = data.ContainsKey("Id") ? data["Id"].ToString()! : id,
+            CiudadanoId = data.ContainsKey("CiudadnoId") ? data["CiudadanoId"].ToString()! : "",
+            Titulo = data.ContainsKey("Titulo") ? data["Titulo"].ToString()! : "",
+            Descripcion = data.ContainsKey("Descripcion") ? data["Descripcion"].ToString()! : "",
+            Direccion = data.ContainsKey("Direccion") ? data["Direccion"].ToString()! : "",
+            Categoria = data.ContainsKey("Categoria") ? data["Categoria"].ToString()! : "",
+            Estado = data.ContainsKey("Estado") ? data["Estado"].ToString()! : "Pendiente",
+            ContraparteId = data.ContainsKey("ContraparteId") ? data["ContraparteId"].ToString()! : "",
+            ZoneId = data.ContainsKey("ZoneId") ? data["ZoneId"].ToString()! : "",
+            UserId = data.ContainsKey("UserId") ? data["UserId"].ToString()! : "",
+            MediadorId = data.ContainsKey("MediadorId") ? data["MediadorId"].ToString()! : "",
+            CreatedAt = data.ContainsKey("CreatedAt") && data["CreatedAt"] is Timestamp ts ? ts.ToDateTime(): DateTime.UtcNow
+        };
+    }
+    
+    
 }

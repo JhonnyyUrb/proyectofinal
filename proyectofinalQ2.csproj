@@ -17,4 +17,10 @@
       <Folder Include="Config\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="firebase-credentials.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
 </Project>

@@ -56,7 +56,7 @@ public class AdminService
 
         if (data.ContainsKey("IsActive"))
         {
-            isActive = Convert.ToBoolean(data["sActive"]);
+            isActive = Convert.ToBoolean(data["IsActive"]);
         }
 
         bool nuevoEstado = !isActive;

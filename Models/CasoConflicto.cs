@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Google.Cloud.Firestore;
 
 namespace proyectofinalQ2.Models;
 
@@ -30,4 +31,8 @@ public string Estado { get; set; } = "Pendiente";
 
     public string ContraparteId { get; set; } = string.Empty;
     public string ZoneId { get; set; } = string.Empty;
+    
+    [FirestoreProperty]
+    public string MediadorId { get; set; } = string.Empty;
+    
 }
