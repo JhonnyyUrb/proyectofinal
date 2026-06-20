@@ -86,7 +86,7 @@ public class CasoConflictoService
         Query query = collection;
 
         // Si es mediador y tiene una zona asignada, filtrar por esa zona
-        if (role == "Mediador" && !string.IsNullOrEmpty(zoneId))
+        if (role == "mediador" && !string.IsNullOrEmpty(zoneId))
         {
             query = collection.WhereEqualTo("ZoneId", zoneId);
         }
@@ -111,6 +111,7 @@ public class CasoConflictoService
                 ContraparteId = data.ContainsKey("ContraparteId") ? data["ContraparteId"].ToString()! : "",
                 ZoneId = data.ContainsKey("ZoneId") ? data["ZoneId"].ToString()! : "",
                 UserId = data.ContainsKey("UserId") ? data["UserId"].ToString()! : "",
+                MediadorId = data.ContainsKey("MediadorId") ? data["MediadorId"].ToString()! : "",
                 CreatedAt = data.ContainsKey("CreatedAt") && data["CreatedAt"] is Timestamp ts ? ts.ToDateTime() : DateTime.UtcNow
             };
             lista.Add(caso);
@@ -183,7 +184,7 @@ return  misCasos;
         return new CasoConflicto
         {
             Id = data.ContainsKey("Id") ? data["Id"].ToString()! : id,
-            CiudadanoId = data.ContainsKey("CiudadnoId") ? data["CiudadanoId"].ToString()! : "",
+            CiudadanoId = data.ContainsKey("CiudadanoId") ? data["CiudadanoId"].ToString()! : "",
             Titulo = data.ContainsKey("Titulo") ? data["Titulo"].ToString()! : "",
             Descripcion = data.ContainsKey("Descripcion") ? data["Descripcion"].ToString()! : "",
             Direccion = data.ContainsKey("Direccion") ? data["Direccion"].ToString()! : "",

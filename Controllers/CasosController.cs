@@ -76,8 +76,8 @@ public class CasosController : ControllerBase
         return Ok(casos);
     }
 
-    [HttpPut("{casosId}/asignar-mediador")]
-    [Authorize(Roles = "Admin")]
+    [HttpPut("{casoId}/asignar-mediador")]
+    [Authorize(Roles = "admin")]
     public async Task<IActionResult> AsignarMediador(string casoId, [FromBody] string mediadorId)
     {
         if (string.IsNullOrEmpty(mediadorId))
@@ -89,7 +89,7 @@ public class CasosController : ControllerBase
     }
 
     [HttpPut("{casoId}/estado")]
-    [Authorize(Roles = "Admin,Mediador")]
+    [Authorize(Roles = "admin,mediador")]
     public async Task<IActionResult> ActualizarEstado(string casoId, [FromBody] string nuevoEstado)
     {
         if (string.IsNullOrEmpty(nuevoEstado))

@@ -30,7 +30,7 @@ public class AdminService
         var role = data.ContainsKey("Role") ? data["Role"].ToString() : "";
 
         // Opcional: Validar que sea un mediador (o rol similar, case-insensitive)
-        if (!string.Equals(role, "Mediador", StringComparison.OrdinalIgnoreCase))
+        if (!string.Equals(role, "mediador", StringComparison.OrdinalIgnoreCase))
         {
             throw new Exception("El usuario no tiene asignado el rol de Mediador.");
         }
@@ -92,7 +92,7 @@ public class AdminService
         var collection = _firebaseService.GetCollection("Users");
 
         var snapshot = await collection
-            .WhereEqualTo("Role", "Mediador")
+            .WhereEqualTo("Role", "mediador")
             .GetSnapshotAsync();
 
         var mediadores = new List<Dictionary<string, object>>();
